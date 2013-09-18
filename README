@@ -1,7 +1,11 @@
 ﻿文件编码格式转换器
 
-目前支持的编码格式有： gbk,big5,utf-7,utf-8,ucs2,ucs-2le,ucs-2be。当然支持其他编码格式也很容易。
+作者： 游蓝海
+主页： http://blog.csdn.net/you_lan_hai
+日期： 2013.9.18
 
+
+目前支持的编码格式有： gbk,big5,utf-7,utf-8,ucs2,ucs-2le,ucs-2be。当然支持其他编码格式也很容易。
 
 用法：
 encodeconv -f fname [-o][output file] [-s][src encode] [-d][dest encode] [-nb]
