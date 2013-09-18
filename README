@@ -1,0 +1,20 @@
+﻿文件编码格式转换器
+
+目前支持的编码格式有： gbk,big5,utf-7,utf-8,ucs2,ucs-2le,ucs-2be。当然支持其他编码格式也很容易。
+
+
+用法：
+encodeconv -f fname [-o][output file] [-s][src encode] [-d][dest encode] [-nb]
+encodeconv -p path filter [-r] [-o][output path] [-s][src encode] [-d][dest encode] [-nb]
+
+-f: 要转换的是一个文件。
+-p: 对目录中的文件进行编码转换。此时必须提供过滤器(filter)，以判断哪些文件需要转换。使用-r参数，可以递归到子目录。
+filter: 文件扩展名过滤器，多个扩展名时，中间用分号隔开。 如： txt;h;cpp
+-r: 对子目录也进行转换.
+-o: 输出文件或路径。
+-s: 源文件编码格式，默认gbk。
+-d: 目标文件编码格式，默认utf-8。
+-nb: 不给文件头追加bom标示。
+
+例如，转换一个文件： encodeconv -f test.txt -o test2.txt -s gbk -d utf-8
+转换一个目录下的所有文件: encodeconv -p c:/test/ txt;h;cpp -o d:/test/ -s gbk -d utf-8 -r
