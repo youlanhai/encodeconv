@@ -13,7 +13,7 @@ std::wstring usage = \
     L"-e: extension of target files. eg. txt;h;cpp\n"
     L"-s: the source file encode. eg. gbk\n"
     L"-d: the dest file encode. default is utf-8\n"
-    L"-o: the output file or path. default is same as the input file or path."
+    L"-o: the output file or path. default is same as the input file or path.\n"
     L"-r: convert rescursively.\n"
     L"-nb: don't add bom.\n\n"
     L"eg. convert a file: encodeconv -f test.txt -s gbk -d utf-8 -o test2.txt\n"
