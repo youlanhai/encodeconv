@@ -7,15 +7,17 @@
 #include <iostream>
 
 
-std::wstring usage = L"encodeconv -f fname [-o][output file] [-s][src encode] [-d][dest encode] [-nb]\n"
-    L"encodeconv -p path filter [-r] [-o][output path] [-s][src encode] [-d][dest encode] [-nb]\n\n"
-    L"filter: type of files. eg. txt;h;cpp\n"
-    L"-r: convert rescursively."
-    L"-s: the source file encode. default is gbk.\n"
-    L"-d: the dest file encode. default is utf-8.\n"
+std::wstring usage = \
+    L"encodeconv -f fname -s src encode [-d][dest encode] [-o][output file] [-nb]\n"
+    L"encodeconv -p path -e extensions -s src encode [-d][dest encode] [-o][output path] [-r] [-nb]\n\n"
+    L"-e: extension of target files. eg. txt;h;cpp\n"
+    L"-s: the source file encode. eg. gbk\n"
+    L"-d: the dest file encode. default is utf-8\n"
+    L"-o: the output file or path. default is same as the input file or path."
+    L"-r: convert rescursively.\n"
     L"-nb: don't add bom.\n\n"
-    L"eg. convert a file: encodeconv -f test.txt -o test2.txt -s gbk -d utf-8\n"
-    L"eg. convert files in path: encodeconv -p c:/test/ txt;h;cpp -o d:/test/ -s gbk -d utf-8\n"
+    L"eg. convert a file: encodeconv -f test.txt -s gbk -d utf-8 -o test2.txt\n"
+    L"eg. convert files in path: encodeconv -p c:/test/ -e txt;h;cpp -s gbk -d utf-8 -o d:/test/ \n"
     ;
 
 ///查找参数名称
@@ -58,13 +60,6 @@ int wmain(int argc, wchar_t* argv[])
     else if(wcscmp(L"-p", argv[1]) == 0)
     {
         isForFile = false;
-        if(argc < 4)
-        {
-            std::wcout<<L"error: need a filter."<<std::endl;
-            return 0;
-        }
-
-        filter = argv[3];
     }
     else
     {
@@ -81,12 +76,14 @@ int wmain(int argc, wchar_t* argv[])
     else destName = srcName;
 
     //find src file encode.
-    std::wstring srcEncode = L"gbk";
+    std::wstring srcEncode;
     index = findArgV(L"-s", argc, argv);
-    if(index >= 0)
+    if(index < 0)
     {
-        srcEncode = argv[index];
+        std::wcout << "please input the source encoding with '-r encoding'!" << std::endl;
+        return 0;
     }
+    srcEncode = argv[index];
 
     //find dest file encode.
     std::wstring destEncode = L"utf-8";
@@ -126,6 +123,14 @@ int wmain(int argc, wchar_t* argv[])
     }
     else
     {
+        //parse the target files extension
+        index = findArgV(L"-e", argc, argv);
+        if(index < 0)
+        {
+            std::wcout << "please input extensions of the taget files with '-e extesions'." << std::endl;
+            return 0;
+        }
+        filter = argv[index];
 
 #ifdef LAZY_DEBUG_MSG
         std::wcout<<L"convertPath: "
